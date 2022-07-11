@@ -61,6 +61,7 @@ export function run(templatesManager: TemplatesManager, args: any) {
 
             let fileContents = templatesManager.getTemplate(selection);
             const className = filename.replace(/\.[^/.]+$/, "");
+            const baseName = filename.substr(0, filename.indexOf('.'));
             const resultsPromise = [];
 
             let expression = /#{(\w+)}/g;
@@ -79,6 +80,9 @@ export function run(templatesManager: TemplatesManager, args: any) {
                 const search = new RegExp(placeholder, "g");
 
                 switch (variableName) {
+                    case "basename":
+                        fileContents = fileContents.replace(search, baseName);
+                        break;
                     case "filename":
                         fileContents = fileContents.replace(search, className);
                         break;
